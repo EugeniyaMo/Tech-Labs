@@ -5,6 +5,7 @@ import ru.itmo.client.Client;
 import ru.itmo.tools.BanksException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Bank {
@@ -14,12 +15,12 @@ public class Bank {
     private double commission;
     private double maximumAvailableAmount;
     private double limit;
-    private ArrayList<IAccount> accounts;
-    private ArrayList<Client> clients;
-    private ArrayList<Transaction> transactions;
+    private List<IAccount> accounts;
+    private List<Client> clients;
+    private List<Transaction> transactions;
 
     public Bank(String name, double percent, double initialPercent, double commision,
-         double maximumAvailableAmount, double limit) {
+                double maximumAvailableAmount, double limit) {
         this.name = name;
         this.percent = percent;
         this.initialPercent = initialPercent;
@@ -41,8 +42,9 @@ public class Bank {
 
     public IAccount getAccountById(UUID id) throws BanksException {
         for (IAccount account : accounts) {
-            if (account.getId() == id)
+            if (account.getId() == id) {
                 return account;
+            }
         }
         throw new BanksException("There is no account with that number.");
     }
@@ -95,7 +97,7 @@ public class Bank {
         this.limit = limit;
     }
 
-    public ArrayList<IAccount> getAccounts() {
+    public List<IAccount> getAccounts() {
         return accounts;
     }
 
@@ -103,7 +105,7 @@ public class Bank {
         this.accounts = accounts;
     }
 
-    public ArrayList<Client> getClients() {
+    public List<Client> getClients() {
         return clients;
     }
 
@@ -111,7 +113,7 @@ public class Bank {
         this.clients = clients;
     }
 
-    public ArrayList<Transaction> getTransactions() {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 
