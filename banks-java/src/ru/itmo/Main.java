@@ -21,8 +21,7 @@ public class Main {
         Date startTime = new Date();
         IConsoleInterface consoleInterface = new ConsoleInterface(centralBank, bank);
         Client client = consoleInterface.greeting();
-        while (true)
-        {
+        while (true) {
             consoleInterface.workingWithAccount(client);
         }
     }

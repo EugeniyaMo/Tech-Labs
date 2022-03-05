@@ -5,11 +5,10 @@ import ru.itmo.bank.Transaction;
 import ru.itmo.client.Client;
 import ru.itmo.tools.BanksException;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-public class DepositAccount implements IAccount{
+public class DepositAccount implements IAccount {
     private UUID id;
     private Bank bank;
     private Client client;
@@ -33,12 +32,13 @@ public class DepositAccount implements IAccount{
         return account.getId();
     }
 
-    public Transaction withdrawMoney(double money) throws BanksException{
+    public Transaction withdrawMoney(double money) throws BanksException {
         Transaction newTransaction = new Transaction(id, -money);
         checkAccountStatus(money);
         Date currentDate = new Date();
-        if (currentDate.before(term))
+        if (currentDate.before(term)) {
             throw new BanksException("The account term is not over yet.");
+        }
         size -= money;
         bank.getTransactions().add(newTransaction);
         return newTransaction;
@@ -55,10 +55,12 @@ public class DepositAccount implements IAccount{
         Transaction newTransaction = new Transaction(id, accountId, -money);
         checkAccountStatus(money);
         Date currentDate = new Date();
-        if (currentDate.before(term))
+        if (currentDate.before(term)) {
             throw new BanksException("The account term is not over yet.");
-        if (size < money)
+        }
+        if (size < money) {
             throw new BanksException("Not enough money in the account.");
+        }
         size -= money;
         IAccount newAccount = bank.getAccountById(accountId);
         newAccount.appendMoney(money);
@@ -67,26 +69,19 @@ public class DepositAccount implements IAccount{
     }
 
     public double updateAccountSize(boolean check) {
-        if (check)
-        {
+        if (check) {
             size += accumulatedSum;
             accumulatedSum = 0;
-        }
-        else
-        {
+        } else {
             accumulatedSum += size * (percent / 100 / 365);
         }
         return size;
     }
 
-    /*private double getPercent(double debitAccountSize, double initialPercent)
-    {
-
-    }*/
-
-    private void checkAccountStatus(double money) throws BanksException{
-        if (!status & money > bank.getMaximumAvailableAmount())
+    private void checkAccountStatus(double money) throws BanksException {
+        if (!status & money > bank.getMaximumAvailableAmount()) {
             throw new BanksException("The account is doubtful, the operation is impossible.");
+        }
     }
 
     public UUID getId() {

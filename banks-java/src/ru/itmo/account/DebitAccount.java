@@ -30,8 +30,9 @@ public class DebitAccount implements IAccount {
     public Transaction withdrawMoney(double money) throws BanksException {
         Transaction newTransaction = new Transaction(id, -money);
         checkAccountStatus(money);
-        if (size < money)
+        if (size < money) {
             throw new BanksException("Insufficient money in the account.");
+        }
         size -= money;
         bank.getTransactions().add(newTransaction);
         return newTransaction;
@@ -47,8 +48,9 @@ public class DebitAccount implements IAccount {
     public Transaction transferMoney(UUID accountId, double money) throws BanksException {
         Transaction newTransaction = new Transaction(id, accountId, -money);
         checkAccountStatus(money);
-        if (size < money)
+        if (size < money) {
             throw new BanksException("Not enough money in the account.");
+        }
         size -= money;
         IAccount newAccount = bank.getAccountById(accountId);
         newAccount.appendMoney(money);
@@ -67,8 +69,9 @@ public class DebitAccount implements IAccount {
     }
 
     private void checkAccountStatus(double money) throws BanksException {
-        if (!status & money > bank.getMaximumAvailableAmount())
+        if (!status & money > bank.getMaximumAvailableAmount()) {
             throw new BanksException("The account is doubtful, the operation is impossible.");
+        }
     }
 
     public UUID getId() {

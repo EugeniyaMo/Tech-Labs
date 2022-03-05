@@ -7,6 +7,7 @@ import ru.itmo.account.IAccount;
 import ru.itmo.bank.Bank;
 import ru.itmo.bank.CentralBank;
 import ru.itmo.bank.ICentralBank;
+import ru.itmo.bank.TypeAccount;
 import ru.itmo.client.Client;
 import ru.itmo.tools.BanksException;
 
@@ -22,7 +23,7 @@ public class BankTest {
     }
 
     @Test
-    public void createNewBank(){
+    public void createNewBank() {
         Bank newBank = new Bank("Sberbank", 13.1, 3, 15000,
                 5000, 100000);
         centralBank.registerNewBank(newBank);
@@ -46,7 +47,7 @@ public class BankTest {
         centralBank.registerNewBank(bank);
         Client newClient = new Client("Sergey", "Potapov");
         centralBank.addNewClientToBank(newClient, bank);
-        IAccount newAccount = centralBank.createNewAccount(newClient, bank, 1, 40000);
+        IAccount newAccount = centralBank.createNewAccount(newClient, bank, TypeAccount.DEBIT, 40000);
         newAccount.appendMoney(1000);
         newAccount.withdrawMoney(200);
         Assert.assertTrue(abs(newAccount.getSize() - (40000 + 1000 - 200)) < epsilon);
@@ -54,13 +55,13 @@ public class BankTest {
     }
 
     @Test(expectedExceptions = BanksException.class)
-    public void createNewAccount_notEnoughMoney_throwException() throws BanksException{
+    public void createNewAccount_notEnoughMoney_throwException() throws BanksException {
         Bank bank = new Bank("Sberbank", 13.1, 3, 15000,
                 5000, 100000);
         centralBank.registerNewBank(bank);
         Client newClient = new Client("Sergey", "Potapov");
         centralBank.addNewClientToBank(newClient, bank);
-        IAccount newAccount = centralBank.createNewAccount(newClient, bank, 1, 1000);
+        IAccount newAccount = centralBank.createNewAccount(newClient, bank, TypeAccount.DEBIT, 1000);
         newAccount.withdrawMoney(2000);
     }
 
@@ -71,7 +72,7 @@ public class BankTest {
         centralBank.registerNewBank(bank);
         Client newClient = new Client("Sergey", "Potapov");
         centralBank.addNewClientToBank(newClient, bank);
-        IAccount newAccount = centralBank.createNewAccount(newClient, bank, 1, 40000);
+        IAccount newAccount = centralBank.createNewAccount(newClient, bank, TypeAccount.DEBIT, 40000);
         newAccount.withdrawMoney(6000);
     }
 }

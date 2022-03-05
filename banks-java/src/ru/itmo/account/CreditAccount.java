@@ -8,7 +8,7 @@ import ru.itmo.tools.BanksException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class CreditAccount implements IAccount{
+public class CreditAccount implements IAccount {
     private UUID id;
     private Bank bank;
     private Client client;
@@ -27,15 +27,12 @@ public class CreditAccount implements IAccount{
         status = false;
     }
 
-    /*public UUID getId() {
-        return id;
-    }*/
-
     public Transaction withdrawMoney(double money) throws BanksException {
         Transaction newTransaction = new Transaction(id, -money);
         checkAccountStatus(money);
-        if (!(size - money > (-1) * limit))
+        if (!(size - money > (-1) * limit)) {
             throw new BanksException("The credit limit reached.");
+        }
         size -= money;
         bank.getTransactions().add(newTransaction);
         return newTransaction;
@@ -49,7 +46,7 @@ public class CreditAccount implements IAccount{
         return newTransaction;
     }
 
-    public Transaction transferMoney(UUID accountId, double money) throws BanksException{
+    public Transaction transferMoney(UUID accountId, double money) throws BanksException {
         Transaction newTransaction = new Transaction(id, accountId, -money);
         checkAccountStatus(money);
         size -= money;
@@ -60,14 +57,16 @@ public class CreditAccount implements IAccount{
     }
 
     public double updateAccountSize(boolean check) {
-        if (size < 0)
+        if (size < 0) {
             size -= commission;
+        }
         return size;
     }
 
     private void checkAccountStatus(double money) throws BanksException {
-        if (!status & money > bank.getMaximumAvailableAmount())
+        if (!status & money > bank.getMaximumAvailableAmount()) {
             throw new BanksException("The account is doubtful, the operation is impossible.");
+        }
     }
 
     public UUID getId() {
