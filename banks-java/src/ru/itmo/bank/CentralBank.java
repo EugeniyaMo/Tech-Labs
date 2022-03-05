@@ -7,18 +7,19 @@ import ru.itmo.account.IAccount;
 import ru.itmo.client.Client;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CentralBank implements ICentralBank {
-    private ArrayList<Bank> banks = new ArrayList<Bank>();
-    private ArrayList<Client> clients = new ArrayList<Client>();
-    private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    private List<Bank> banks = new ArrayList<Bank>();
+    private List<Client> clients = new ArrayList<Client>();
+    private List<Transaction> transactions = new ArrayList<Transaction>();
 
-    public ArrayList<Bank> getBanks() {
+    public List<Bank> getBanks() {
         return banks;
     }
 
-    public ArrayList<Client> getClients() {
+    public List<Client> getClients() {
         return clients;
     }
 
@@ -33,23 +34,22 @@ public class CentralBank implements ICentralBank {
         return client;
     }
 
-    public IAccount createNewAccount(Client client, Bank bank, int numberAccount, double size) {
+    public IAccount createNewAccount(Client client, Bank bank, TypeAccount typeAccount, double size) {
         IAccount newAccount = null;
-        switch (numberAccount) {
-            // Debit Account
-            case 1:
+        switch (typeAccount) {
+            case DEBIT:
                 newAccount = new DebitAccount(bank, client, size);
                 bank.getAccounts().add(newAccount);
                 break;
 
             // Deposit Account
-            case 2:
+            case DEPOSIT:
                 newAccount = new DepositAccount(bank, client, size);
                 bank.getAccounts().add(newAccount);
                 break;
 
             // Credit Account
-            case 3:
+            case CREDIT:
                 newAccount = new CreditAccount(bank, client, size);
                 bank.getAccounts().add(newAccount);
                 break;
@@ -66,8 +66,9 @@ public class CentralBank implements ICentralBank {
     public void canselTransaction(Bank bank, UUID transactionID) {
         int index = -1;
         for (Transaction transaction : transactions) {
-            if (transaction.getId() == transactionID)
+            if (transaction.getId() == transactionID) {
                 index = transactions.indexOf(transaction);
+            }
         }
         transactions.remove(index);
     }

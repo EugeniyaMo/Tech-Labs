@@ -4,6 +4,7 @@ import ru.itmo.account.IAccount;
 import ru.itmo.bank.Bank;
 import ru.itmo.bank.ICentralBank;
 import ru.itmo.bank.Transaction;
+import ru.itmo.bank.TypeAccount;
 import ru.itmo.client.Client;
 import ru.itmo.tools.BanksException;
 
@@ -30,10 +31,12 @@ public class ConsoleInterface implements IConsoleInterface {
             String username = scanner.nextLine();
             System.out.println("Enter your password:");
             String password = scanner.nextLine();
-            if (dataBasePasswords.get(username) == password)
+            if (dataBasePasswords.get(username) == password) {
                 System.out.println("OK");
-            else
+            }
+            else {
                 System.out.println("Invalid password");
+            }
             return dataBaseClients.get(username);
         } else {
             return registration();
@@ -66,12 +69,13 @@ public class ConsoleInterface implements IConsoleInterface {
     public void createNewAccount(Client client) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("What kind of account do you want to create?");
-        System.out.println("1 - Debit account\n2 - Deposit account\n3 - Credit account");
-        System.out.println("Write number:");
-        int numberAccount = scanner.nextInt();
+        System.out.println("1 - Debit\n2 - Deposit\n3 - Credit");
+        System.out.println("Write name of account:");
+        String nameAccount = scanner.nextLine().toLowerCase(Locale.ROOT);
+        TypeAccount typeAccount = TypeAccount.getTypeByName(nameAccount);
         System.out.println("Write the amount of money you want to put into the account:");
         double money = scanner.nextDouble();
-        centralBank.createNewAccount(client, bank, numberAccount, money);
+        centralBank.createNewAccount(client, bank, typeAccount, money);
     }
 
     public void workingWithAccount(Client client) throws BanksException {
