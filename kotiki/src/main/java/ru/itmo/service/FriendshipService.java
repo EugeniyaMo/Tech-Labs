@@ -1,45 +1,50 @@
 package ru.itmo.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import ru.itmo.dao.AbstractDao;
 import ru.itmo.models.Cat;
 import ru.itmo.models.Friendship;
 import ru.itmo.models.Owner;
+import ru.itmo.repository.IFriendshipRepository;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendshipService {
-    private AbstractDao abstractDao = new AbstractDao(new Friendship());
+@Service
+@RequiredArgsConstructor
+@Transactional
+@Slf4j
+public class FriendshipService implements IFriendshipService{
+    private final IFriendshipRepository friendshipRepository;
 
-    public FriendshipService() {
+    @Override
+    public Friendship createFriendship(int idFirstCat, int idSecondCat) {
+        return friendshipRepository.save(new Friendship(idFirstCat, idSecondCat));
     }
 
-    public Friendship create(int idFirstCat, int idSecondCat) {
-        Friendship newFriendship = new Friendship(idFirstCat, idSecondCat);
-        abstractDao.save(newFriendship);
-        return newFriendship;
+    @Override
+    public Friendship saveFriendship(Friendship friendship) {
+        return friendshipRepository.save(friendship);
     }
 
-    public Friendship update(Friendship friendship) {
-        abstractDao.update(friendship);
+    @Override
+    public Friendship getFriendshipById(int id) {
+        return friendshipRepository.findById(id);
+    }
+
+    @Override
+    public List<Friendship> getFriendships() {
+        return friendshipRepository.findAll();
+    }
+
+    @Override
+    public Friendship deleteFriendship(Friendship friendship) {
+        friendshipRepository.delete(friendship);
         return friendship;
-    }
-
-    public Friendship delete(Friendship friendship) {
-        abstractDao.delete(friendship);
-        return friendship;
-    }
-
-    public Friendship findById(int id) {
-        return (Friendship) abstractDao.findById(id);
-    }
-
-    public List<Friendship> findAll() {
-        List<Object> objects = abstractDao.findAll();
-        List<Friendship> friendships = new ArrayList<Friendship>();
-        for (Object item : objects) {
-            friendships.add((Friendship) item);
-        }
-        return friendships;
     }
 }
