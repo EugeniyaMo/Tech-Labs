@@ -1,10 +1,18 @@
 package ru.itmo.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import ru.itmo.wrapper.CatWrapper;
+import ru.itmo.wrapper.FriendshipWrapper;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
+@Entity @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "friends")
 public class Friendship {
     @Id
@@ -17,16 +25,12 @@ public class Friendship {
     @Column(name = "id_second_cat")
     private int idSecondCat;
 
-    //@ManyToMany(mappedBy = "friends")
-    //private List<Cat> cats;
-
-    public Friendship() {
-    }
-
     public Friendship(int idFirstCat, int idSecondCat) {
         this.idFirstCat = idFirstCat;
         this.idSecondCat = idSecondCat;
     }
+//@ManyToMany(mappedBy = "friends")
+    //private List<Cat> cats;
 
     public int getId() {
         return id;
@@ -34,6 +38,10 @@ public class Friendship {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public FriendshipWrapper getWrapper() {
+        return new FriendshipWrapper(id, idFirstCat, idSecondCat);
     }
 
 }

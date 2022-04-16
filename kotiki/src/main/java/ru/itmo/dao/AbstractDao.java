@@ -2,7 +2,6 @@ package ru.itmo.dao;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import ru.itmo.models.Owner;
 import ru.itmo.tools.HibernateSessionFactoryUtil;
 
 import javax.persistence.criteria.CriteriaBuilder;

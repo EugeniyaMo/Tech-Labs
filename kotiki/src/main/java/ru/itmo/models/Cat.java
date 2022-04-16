@@ -1,10 +1,16 @@
 package ru.itmo.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import ru.itmo.wrapper.CatWrapper;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity @Data @NoArgsConstructor @AllArgsConstructor
 @Table(name = "cats")
 public class Cat {
     @Id
@@ -20,7 +26,7 @@ public class Cat {
     @Column(name = "breed")
     private String breed;
 
-    @Column (name = "color_id")
+    @Column(name = "color_id")
     private int colorId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,19 +34,16 @@ public class Cat {
     private Owner owner;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "friends",
-            joinColumns = @JoinColumn(name = "id_first_cat"),
-            inverseJoinColumns = @JoinColumn(name = "id_second_cat"))
+    @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "id_first_cat"), inverseJoinColumns = @JoinColumn(name = "id_second_cat"))
     private List<Cat> friends;
 
-    public Cat() {
-    }
-
-    public Cat(String name, LocalDate birthday, Color color, String breed) {
+    public Cat(String name, LocalDate birthday, String breed, int colorId, Owner owner) {
         this.name = name;
         this.birthday = birthday;
-        this.colorId = color.ordinal();
         this.breed = breed;
+        this.colorId = colorId;
+        this.owner = owner;
+        this.friends = new ArrayList<>();
     }
 
     public int getId() {
@@ -67,7 +70,9 @@ public class Cat {
         this.birthday = birthday;
     }
 
-    public String getBreed() { return breed; }
+    public String getBreed() {
+        return breed;
+    }
 
     public void setBreed(String breed) {
         this.breed = breed;
@@ -89,12 +94,19 @@ public class Cat {
         this.owner = owner;
     }
 
-//    public Color getColor() {
-//        return new Color()
-//    }
-    /*
-    @Override
-    public String toString() {
-        return color + " " + model;
-    }*/
+    public int getOwnerId() {
+        return owner.getId();
+    }
+
+    public List<Integer> getFriendsId() {
+        List<Integer> friendsId = new ArrayList<>();
+        for (Cat friend: friends) {
+            friendsId.add(friend.id);
+        }
+        return friendsId;
+    }
+
+    public CatWrapper getWrapper() {
+        return new CatWrapper(id, name, birthday, breed, colorId, this.getOwnerId(), this.getFriendsId());
+    }
 }
