@@ -6,19 +6,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.itmo.models.Cat;
 import ru.itmo.models.Owner;
-import ru.itmo.service.CatService;
-import ru.itmo.service.OwnerService;
+import ru.itmo.serviceImpl.CatServiceImpl;
+import ru.itmo.serviceImpl.OwnerServiceImpl;
 import ru.itmo.wrapper.CatWrapper;
-import ru.itmo.wrapper.OwnerWrapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController @RequestMapping("/api/cat")
+@RestController
+@RequestMapping("/api/cat")
 @RequiredArgsConstructor
 public class CatController {
-    private final CatService catService;
-    private final OwnerService ownerService;
+    private final CatServiceImpl catService;
+    private final OwnerServiceImpl ownerService;
 
     @PostMapping("/create")
     public ResponseEntity<CatWrapper> createCat(@RequestParam String name, @RequestParam String birthday,
