@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/friendship")
+@RequestMapping("/friendship")
 @RequiredArgsConstructor
 public class FriendshipController {
     private final FriendshipServiceImpl friendshipService;
