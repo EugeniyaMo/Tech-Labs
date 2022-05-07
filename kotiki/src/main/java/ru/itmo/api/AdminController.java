@@ -1,5 +1,6 @@
 package ru.itmo.api;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,14 +17,11 @@ import ru.itmo.service.UserService;
 
 @RestController
 @RequestMapping("/admin")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AdminController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private OwnerService ownerService;
-    @Autowired
-    private RoleService roleService;
+    private final UserService userService;
+    private final OwnerService ownerService;
+    private final RoleService roleService;
 
     @PostMapping("/add")
     public ResponseEntity<?> addUser(@RequestParam String username, @RequestParam String password,

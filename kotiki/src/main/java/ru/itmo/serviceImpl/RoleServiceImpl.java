@@ -1,5 +1,6 @@
 package ru.itmo.serviceImpl;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,10 @@ import ru.itmo.service.RoleService;
 import javax.transaction.Transactional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@AllArgsConstructor
 @Slf4j
 public class RoleServiceImpl implements RoleService {
-
-    @Autowired
     private final RoleRepository roleRepository;
 
     @Override
