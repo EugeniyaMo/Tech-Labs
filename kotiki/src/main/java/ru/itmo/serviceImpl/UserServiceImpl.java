@@ -1,5 +1,6 @@
 package ru.itmo.serviceImpl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,12 +22,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
     @PersistenceContext
-    private EntityManager entityManager;
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Override
