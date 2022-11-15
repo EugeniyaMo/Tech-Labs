@@ -10,37 +10,36 @@ import ru.itmo.KotikiApplication;
 import ru.itmo.models.Cat;
 import ru.itmo.models.Friendship;
 import ru.itmo.models.Owner;
-import ru.itmo.repository.ICatRepository;
-import ru.itmo.repository.IFriendshipRepository;
-import ru.itmo.repository.IOwnerRepository;
-import ru.itmo.service.CatService;
-import ru.itmo.service.FriendshipService;
-import ru.itmo.service.OwnerService;
+import ru.itmo.repository.CatRepository;
+import ru.itmo.repository.FriendshipRepository;
+import ru.itmo.repository.OwnerRepository;
+import ru.itmo.serviceImpl.CatServiceImpl;
+import ru.itmo.serviceImpl.FriendshipServiceImpl;
+import ru.itmo.serviceImpl.OwnerServiceImpl;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = KotikiApplication.class)
 public class KotikiSpringTest {
 
     @Autowired
-    private OwnerService ownerService;
+    private OwnerServiceImpl ownerService;
 
     @MockBean
-    private IOwnerRepository ownerRepository;
+    private OwnerRepository ownerRepository;
 
     @Autowired
-    private CatService catService;
+    private CatServiceImpl catService;
 
     @MockBean
-    private ICatRepository catRepository;
+    private CatRepository catRepository;
 
     @Autowired
-    private FriendshipService friendshipService;
+    private FriendshipServiceImpl friendshipService;
 
     @MockBean
-    private IFriendshipRepository friendshipRepository;
+    private FriendshipRepository friendshipRepository;
 
     @Test
     public void testOwnerService() {

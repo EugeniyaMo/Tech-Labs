@@ -5,20 +5,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.itmo.models.Friendship;
-import ru.itmo.models.Owner;
-import ru.itmo.service.FriendshipService;
-import ru.itmo.wrapper.CatWrapper;
+import ru.itmo.serviceImpl.FriendshipServiceImpl;
 import ru.itmo.wrapper.FriendshipWrapper;
-import ru.itmo.wrapper.OwnerWrapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/friendship")
+@RequestMapping("/friendship")
 @RequiredArgsConstructor
 public class FriendshipController {
-    private final FriendshipService friendshipService;
+    private final FriendshipServiceImpl friendshipService;
 
     @PostMapping("/create")
     public ResponseEntity<FriendshipWrapper> createFriendship(@RequestParam int idFirstCat, @RequestParam int idSecondCat) {

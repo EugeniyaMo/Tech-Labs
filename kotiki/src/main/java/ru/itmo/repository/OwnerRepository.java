@@ -5,7 +5,7 @@ import ru.itmo.models.Owner;
 
 import java.util.List;
 
-public interface IOwnerRepository extends JpaRepository<Owner, Integer> {
+public interface OwnerRepository extends JpaRepository<Owner, Integer> {
     Owner save(Owner owner);
     Owner findById(int id);
     List<Owner> findAll();
